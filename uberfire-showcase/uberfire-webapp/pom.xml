@@ -482,6 +482,23 @@
       <scope>provided</scope>
     </dependency>
 
+    <!--  Uberfire Demo  -->
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-demo-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-demo-backend</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-demo-client</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -544,8 +561,12 @@
             <compileSourcesArtifact>org.uberfire:uberfire-simple-docks-client</compileSourcesArtifact>
 
             <!-- Uberfire Experimentals -->
-            <compileSourcesArtifact>org.uberfire:uberfire-experimental-api</compileSourcesArtifact>
             <compileSourcesArtifact>org.uberfire:uberfire-experimental-client</compileSourcesArtifact>
+            <compileSourcesArtifact>org.uberfire:uberfire-experimental-api</compileSourcesArtifact>
+
+            <!-- Uberfire Demo -->
+            <compileSourcesArtifact>org.uberfire:uberfire-dmeo-client</compileSourcesArtifact>
+            <compileSourcesArtifact>org.uberfire:uberfire-dmeo-api</compileSourcesArtifact>
 
           </compileSourcesArtifacts>
         </configuration>
