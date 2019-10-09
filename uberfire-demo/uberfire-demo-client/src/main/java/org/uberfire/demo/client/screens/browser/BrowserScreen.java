@@ -1,0 +1,72 @@
+/*
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+package org.uberfire.demo.client.screens.browser;
+
+import com.google.gwt.user.client.Window;
+import elemental2.dom.HTMLElement;
+import elemental2.dom.HTMLHeadingElement;
+import org.jboss.errai.common.client.api.elemental2.IsElement;
+import org.uberfire.client.annotations.WorkbenchMenu;
+import org.uberfire.client.annotations.WorkbenchPartTitle;
+import org.uberfire.client.annotations.WorkbenchPartView;
+import org.uberfire.client.annotations.WorkbenchScreen;
+import org.uberfire.workbench.model.menu.MenuFactory;
+import org.uberfire.workbench.model.menu.Menus;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import java.util.function.Consumer;
+
+@WorkbenchScreen(identifier = BrowserScreen.IDENTIFIER)
+public class BrowserScreen implements IsElement {
+
+    public static final String IDENTIFIER = "Browser";
+
+    @Inject
+    @Named("h1")
+    private HTMLHeadingElement headingElement;
+
+    @PostConstruct
+    public void init() {
+        headingElement.textContent = "Browser Screen";
+        headingElement.style.color = "blue";
+    }
+
+    @WorkbenchPartTitle
+    public String getTitle() {
+        return "Browser Screen";
+    }
+
+    @WorkbenchPartView
+    public IsElement getView() {
+        return this;
+    }
+
+    @WorkbenchMenu
+    public void getMenu(Consumer<Menus> consumer) {
+        consumer.accept(MenuFactory.newTopLevelMenu("Open Menu").respondsWith(() -> Window.alert("Hello"))
+                                .endMenu().build());
+    }
+
+    @Override
+    public HTMLElement getElement() {
+        return headingElement;
+    }
+}

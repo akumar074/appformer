@@ -565,8 +565,8 @@
             <compileSourcesArtifact>org.uberfire:uberfire-experimental-api</compileSourcesArtifact>
 
             <!-- Uberfire Demo -->
-            <compileSourcesArtifact>org.uberfire:uberfire-dmeo-client</compileSourcesArtifact>
-            <compileSourcesArtifact>org.uberfire:uberfire-dmeo-api</compileSourcesArtifact>
+            <compileSourcesArtifact>org.uberfire:uberfire-demo-client</compileSourcesArtifact>
+            <compileSourcesArtifact>org.uberfire:uberfire-demo-api</compileSourcesArtifact>
 
           </compileSourcesArtifacts>
         </configuration>

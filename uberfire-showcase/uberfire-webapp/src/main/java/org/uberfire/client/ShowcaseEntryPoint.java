@@ -72,6 +72,7 @@ import org.uberfire.client.workbench.StandaloneEditorPerspective;
 import org.uberfire.client.workbench.events.ApplicationReadyEvent;
 import org.uberfire.client.workbench.widgets.menu.UtilityMenuBar;
 import org.uberfire.client.workbench.widgets.menu.WorkbenchMenuBar;
+import org.uberfire.demo.client.perspective.DemoPerspective;
 import org.uberfire.experimental.client.perspective.ExperimentalFeaturesPerspective;
 import org.uberfire.ext.apps.client.AppsPerspective;
 import org.uberfire.ext.plugin.client.perspective.PlugInAuthoringPerspective;
@@ -261,6 +262,7 @@ public class ShowcaseEntryPoint {
         perspectives.add(buildPerspectiveMenuItem(Constants.INSTANCE.preferences_perspective(), PreferencesCentralPerspective.IDENTIFIER));
         perspectives.add(buildPerspectiveMenuItem(Constants.INSTANCE.simple_perspective(), SimplePerspective.IDENTIFIER));
         perspectives.add(buildPerspectiveMenuItem(Constants.INSTANCE.standalone_editor_perspective(), StandaloneEditorPerspective.IDENTIFIER));
+        perspectives.add(buildPerspectiveMenuItem("Demo", DemoPerspective.IDENTIFIER));
 
         getJsPerspectiveActivities().forEach(activity -> perspectives.add(buildPerspectiveMenuItem(activity.getName(), activity.getIdentifier())));
 
