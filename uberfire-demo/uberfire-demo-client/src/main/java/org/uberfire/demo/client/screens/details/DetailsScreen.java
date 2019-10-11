@@ -18,6 +18,7 @@
 package org.uberfire.demo.client.screens.details;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -27,6 +28,8 @@ import org.jboss.errai.common.client.api.elemental2.IsElement;
 import org.uberfire.client.annotations.WorkbenchPartTitle;
 import org.uberfire.client.annotations.WorkbenchPartView;
 import org.uberfire.client.annotations.WorkbenchScreen;
+import org.uberfire.demo.api.model.Game;
+import org.uberfire.demo.client.event.GameDetailEvent;
 
 @WorkbenchScreen(identifier = DetailsScreen.IDENTIFIER)
 public class DetailsScreen implements IsElement {
@@ -34,14 +37,22 @@ public class DetailsScreen implements IsElement {
     public static final String IDENTIFIER = "Details";
 
     @Inject
-    private HTMLImageElement image;
+    private DetailsComponent detailsComponent;
 
     @PostConstruct
     public void init() {
-        image.alt = "Random Image";
-        image.src = "https://picsum.photos/300/300";
-        image.height = 300;
-        image.width = 300;
+        Game game = new Game();
+        game.setTitle("Pac-Man");
+        game.setYear(1984);
+        game.setType("Arcade");
+        game.setId("ga001");
+        game.setDescription("Classic Arcade game you can play (PG rating: U/A)");
+        game.setRating(9);
+        detailsComponent.show(game);
+    }
+
+    public void viewGame(@Observes GameDetailEvent event) {
+        detailsComponent.show(event.getGame());
     }
 
     @WorkbenchPartTitle
@@ -56,6 +67,6 @@ public class DetailsScreen implements IsElement {
 
     @Override
     public HTMLElement getElement() {
-        return image;
+        return detailsComponent.getElement();
     }
 }
