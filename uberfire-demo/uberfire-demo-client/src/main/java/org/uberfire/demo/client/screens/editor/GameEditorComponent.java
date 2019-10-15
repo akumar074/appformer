@@ -21,12 +21,17 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
+import com.google.gwt.user.client.Window;
 import elemental2.dom.HTMLElement;
+import org.jboss.errai.common.client.api.Caller;
+import org.jboss.errai.common.client.api.RemoteCallback;
 import org.jboss.errai.common.client.api.elemental2.IsElement;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.demo.api.model.Game;
+import org.uberfire.demo.api.model.GameInfo;
 import org.uberfire.demo.client.event.NewGameEvent;
 import org.uberfire.demo.client.screens.browser.game.GameComponent;
+import org.uberfire.demo.service.UberfireDemoRegistryService;
 
 @Dependent
 public class GameEditorComponent implements GameEditorComponentView.Presenter, IsElement{
@@ -38,6 +43,9 @@ public class GameEditorComponent implements GameEditorComponentView.Presenter, I
 
     @Inject
     private Event<NewGameEvent> event;
+
+    @Inject
+    private Caller<UberfireDemoRegistryService> serviceCaller;
 
     @Inject
     public GameEditorComponent(GameEditorComponentView view) {
@@ -54,12 +62,22 @@ public class GameEditorComponent implements GameEditorComponentView.Presenter, I
         game.setDescription(view.getDescription());
         game.setYear(view.getYear());
         game.setTitle(view.getTitle());
-        this.event.fire(new NewGameEvent(game));
-        placeManager.closePlace(GameEditorPopUp.IDENTIFIER);
+        serviceCaller.call(new RemoteCallback<Game>() {
+            @Override
+            public void callback(Game game) {
+                Window.alert("Game " + game.getTitle()+" Added");
+                placeManager.closePlace(GameEditorPopUp.IDENTIFIER);
+                eventGenerated();;
+            }
+        }).add(game);
     }
 
     public void show(GameEditorComponent component) {
         view.show(component);
+    }
+
+    public void eventGenerated() {
+        this.event.fire(new NewGameEvent(new Game()));
     }
 
     @Override

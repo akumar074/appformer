@@ -24,8 +24,11 @@ public interface BrowserComponentView extends UberElemental<BrowserComponentView
 
     void show(GameComponent gameComponent);
 
+    void clearList();
+
     interface Presenter {
 
         void open();
+
     }
 }

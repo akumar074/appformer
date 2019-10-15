@@ -17,6 +17,8 @@
 
 package org.uberfire.demo.client.screens.browser;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.enterprise.context.Dependent;
@@ -26,11 +28,14 @@ import javax.inject.Inject;
 
 import com.google.gwt.user.client.Window;
 import elemental2.dom.HTMLElement;
+import org.jboss.errai.common.client.api.Caller;
+import org.jboss.errai.common.client.api.RemoteCallback;
 import org.jboss.errai.ioc.client.api.ManagedInstance;
 import org.jboss.errai.ui.client.local.api.elemental2.IsElement;
 import org.uberfire.demo.api.model.Game;
 import org.uberfire.demo.client.event.NewGameEvent;
 import org.uberfire.demo.client.screens.browser.game.GameComponent;
+import org.uberfire.demo.service.UberfireDemoRegistryService;
 
 @Dependent
 public class BrowserComponent implements BrowserComponentView.Presenter,
@@ -43,11 +48,29 @@ public class BrowserComponent implements BrowserComponentView.Presenter,
     @Inject
     private ManagedInstance<GameComponent> gameComponents;
 
+    private final Caller<UberfireDemoRegistryService> serviceCaller;
+
     @Inject
-    public BrowserComponent(BrowserComponentView view, ManagedInstance<GameComponent> gameComponents) {
+    public BrowserComponent(BrowserComponentView view, ManagedInstance<GameComponent> gameComponents,
+                            Caller<UberfireDemoRegistryService> serviceCaller) {
         this.view = view;
         this.gameComponents = gameComponents;
+        this.serviceCaller = serviceCaller;
         view.init(this);
+    }
+
+    public void load() {
+        serviceCaller.call((RemoteCallback<Collection<Game>>) this::loadGames).getList();
+    }
+
+    public void loadGames(Collection<Game> gameList) {
+
+        if (gameList == null || gameList.isEmpty()) {
+
+        } else {
+            view.clearList();
+            show((List)gameList);
+        }
     }
 
     public void show(List<Game> gameList) {
@@ -60,9 +83,7 @@ public class BrowserComponent implements BrowserComponentView.Presenter,
     }
 
     public void addNewGame(@Observes NewGameEvent event) {
-        GameComponent gameComponent = gameComponents.get();
-        gameComponent.show(event.getGame());
-        view.show(gameComponent);
+        load();
     }
 
     @Override

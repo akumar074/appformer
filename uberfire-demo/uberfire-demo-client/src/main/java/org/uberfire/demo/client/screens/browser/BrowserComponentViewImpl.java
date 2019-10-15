@@ -37,11 +37,18 @@ public class BrowserComponentViewImpl implements BrowserComponentView,
 
     @Override
     public void show(GameComponent gameComponent) {
-        this.gameList.appendChild(gameComponent.getElement());
+        gameList.appendChild(gameComponent.getElement());
+    }
+
+    @Override
+    public void clearList() {
+        gameList.innerHTML = "";
     }
 
     @Override
     public void init(Presenter presenter) {
         this.presenter = presenter;
     }
+
+
 }
