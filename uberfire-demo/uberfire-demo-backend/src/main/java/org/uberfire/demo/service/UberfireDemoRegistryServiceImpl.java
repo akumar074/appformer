@@ -17,13 +17,16 @@
 
 package org.uberfire.demo.service;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -46,7 +49,7 @@ import org.uberfire.java.nio.file.FileSystem;
 @ApplicationScoped
 public class UberfireDemoRegistryServiceImpl implements UberfireDemoRegistryService {
 
-    public static final String STORAGE_PATH = "game-lib";
+    public static final String STORAGE_PATH = "gamelib";
 
     public static final String SEPARATOR = "/";
 
@@ -65,30 +68,28 @@ public class UberfireDemoRegistryServiceImpl implements UberfireDemoRegistryServ
 
     @PostConstruct
     public void init() {
-        initializeFileSystem();;
+        initializeFileSystem();
     }
 
     @Override
     public Game add(Game game) {
-        String path = STORAGE_PATH + SEPARATOR + game.getId() + EXTENSION;
+        String path = game.getId() + EXTENSION;
         Path fsPath = fileSystem.getPath(path);
-        if(!iOService.exists(fsPath)) {
-//            gameInfo.setPath(Paths.convert(fsPath));
-            iOService.write(fsPath,gson.toJson(game));
+        if (!iOService.exists(fsPath)) {
+            iOService.write(fsPath, gson.toJson(game));
             return game;
         }
         throw new FileSystemAlreadyExistsException(fsPath.toString());
     }
 
     @Override
-    public List<GameInfo> getList() {
-        Path fsPath = fileSystem.getPath(STORAGE_PATH);
-        final List<GameInfo> result = new ArrayList<>();
-        iOService.newDirectoryStream(fsPath, entry -> entry.getFileName().toString().endsWith(EXTENSION)).forEach(assetPath -> result.add(readObjectFromFile(assetPath.toString())));
-        return gameList;
+    public List<Game> getList() {
+        Path fsPath = fileSystem.getPath("/");
+        final List<Game> result = new ArrayList<>();
+        iOService.newDirectoryStream(fsPath, entry -> entry.getFileName().toString().endsWith(EXTENSION))
+                .forEach(assetPath -> result.add(readObjectFromFile(assetPath)));
+        return result;
     }
-
-
 
     @Override
     public GameInfo delete(GameInfo gameInfo) {
@@ -100,16 +101,25 @@ public class UberfireDemoRegistryServiceImpl implements UberfireDemoRegistryServ
         return gameInfo;
     }
 
-    public GameInfo readObjectFromFile(String filePath) {
-        GameInfo gameInfo = new GameInfo();
-        try {
-            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(filePath));
-             gameInfo = (GameInfo) objectInputStream.readObject();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return gameInfo;
+    public Game readObjectFromFile(Path path) {
+        Game game = new Game();
+        String result = iOService.readAllString(path);
+        game = gson.fromJson(result, Game.class);
+        return game;
     }
+
+//    public Game readObjectFromFile(String filePath) {
+//        Game game = new Game();
+//        try {
+//            File file = new File(filePath);
+//            FileInputStream stream = new FileInputStream(file);
+//            ObjectInputStream objectInputStream = new ObjectInputStream(stream);
+//            game = (Game) objectInputStream.readObject();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return game;
+//    }
 
     protected void initializeFileSystem() {
         final URI fileSystemURI = spaces.resolveFileSystemURI(SpacesAPI.Scheme.GIT, new Space("game-factory"), "game");
@@ -123,6 +133,5 @@ public class UberfireDemoRegistryServiceImpl implements UberfireDemoRegistryServ
         } catch (FileSystemAlreadyExistsException e) {
             fileSystem = iOService.getFileSystem(fileSystemURI);
         }
-
     }
 }

@@ -11,7 +11,7 @@ public interface UberfireDemoRegistryService {
 
     Game add(Game game);
 
-    List<GameInfo> getList();
+    List<Game> getList();
 
     GameInfo delete(GameInfo game);
 

@@ -41,7 +41,8 @@ import org.uberfire.spaces.SpacesAPI;
 
 @Service
 @ApplicationScoped
-public class ExperimentalEditorServiceImpl implements ExperimentalEditorService {
+public class
+ExperimentalEditorServiceImpl implements ExperimentalEditorService {
 
     public static final String STORAGE_PATH = "content";
 
