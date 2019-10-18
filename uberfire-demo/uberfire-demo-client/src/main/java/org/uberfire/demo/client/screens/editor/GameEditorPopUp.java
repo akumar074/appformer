@@ -48,7 +48,6 @@ public class GameEditorPopUp implements IsElement {
 
     @PostConstruct
     public void setup() {
-
     }
 
     @Override

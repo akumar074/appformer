@@ -34,7 +34,8 @@ import org.uberfire.demo.client.screens.browser.game.GameComponent;
 import org.uberfire.demo.service.UberfireDemoRegistryService;
 
 @Dependent
-public class GameEditorComponent implements GameEditorComponentView.Presenter, IsElement{
+public class GameEditorComponent implements GameEditorComponentView.Presenter,
+                                            IsElement {
 
     private GameEditorComponentView view;
 
@@ -65,9 +66,9 @@ public class GameEditorComponent implements GameEditorComponentView.Presenter, I
         serviceCaller.call(new RemoteCallback<Game>() {
             @Override
             public void callback(Game game) {
-                Window.alert("Game " + game.getTitle()+" Added");
+                Window.alert("Game " + game.getTitle() + " Added");
                 placeManager.closePlace(GameEditorPopUp.IDENTIFIER);
-                eventGenerated();;
+                eventGenerated();
             }
         }).add(game);
     }
@@ -76,8 +77,12 @@ public class GameEditorComponent implements GameEditorComponentView.Presenter, I
         view.show(component);
     }
 
+    public void show(Game game) {
+        view.show(game);
+    }
+
     public void eventGenerated() {
-        this.event.fire(new NewGameEvent(new Game()));
+        event.fire(new NewGameEvent(new Game()));
     }
 
     @Override

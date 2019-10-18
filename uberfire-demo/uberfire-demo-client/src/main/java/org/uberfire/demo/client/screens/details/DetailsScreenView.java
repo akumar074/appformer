@@ -15,31 +15,16 @@
  *
  */
 
-package org.uberfire.demo.client.screens.editor;
+package org.uberfire.demo.client.screens.details;
 
+import elemental2.dom.HTMLElement;
 import org.uberfire.client.mvp.UberElemental;
-import org.uberfire.demo.api.model.Game;
 
-public interface GameEditorComponentView extends UberElemental<GameEditorComponentView.Presenter> {
+public interface DetailsScreenView extends UberElemental<DetailsScreenView.Presenter> {
 
-    void show(GameEditorComponent gameEditorComponent);
+    void clear();
 
-    void show(Game game);
+    void add(HTMLElement element);
 
-    interface Presenter {
-
-        void createGame();
-    }
-
-    public String getTitle();
-
-    public int getYear();
-
-    public String getId();
-
-    public String getType();
-
-    public String getDescription();
-
-    public int getRating();
+    interface Presenter {}
 }

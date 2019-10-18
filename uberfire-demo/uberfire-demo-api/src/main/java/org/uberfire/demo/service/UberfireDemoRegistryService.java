@@ -15,4 +15,6 @@ public interface UberfireDemoRegistryService {
 
     GameInfo delete(GameInfo game);
 
+    Game edit(Game game);
+
 }

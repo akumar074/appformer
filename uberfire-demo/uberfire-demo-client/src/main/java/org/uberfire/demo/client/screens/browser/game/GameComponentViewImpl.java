@@ -40,6 +40,10 @@ public class GameComponentViewImpl implements GameComponentView,
     @DataField
     private HTMLButtonElement viewAction;
 
+    @Inject
+    @DataField
+    private HTMLButtonElement editAction;
+
     private Presenter presenter;
 
     @Override
@@ -55,5 +59,10 @@ public class GameComponentViewImpl implements GameComponentView,
     @EventHandler("viewAction")
     public void onViewAction(ClickEvent event) {
         presenter.open();
+    }
+
+    @EventHandler("editAction")
+    public void onEditAction(ClickEvent event) {
+        presenter.edit();
     }
 }

@@ -27,9 +27,12 @@ import org.jboss.errai.ui.client.local.api.elemental2.IsElement;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.uberfire.commons.uuid.UUID;
+import org.uberfire.demo.api.model.Game;
 
 @Templated
-public class GameEditorComponentViewImpl implements GameEditorComponentView, IsElement {
+public class GameEditorComponentViewImpl implements GameEditorComponentView,
+                                                    IsElement {
 
     @Inject
     @DataField
@@ -61,6 +64,8 @@ public class GameEditorComponentViewImpl implements GameEditorComponentView, IsE
 
     private Presenter presenter;
 
+    private UUID uuid;
+
     @Override
     public void init(Presenter presenter) {
         this.presenter = presenter;
@@ -72,7 +77,18 @@ public class GameEditorComponentViewImpl implements GameEditorComponentView, IsE
     }
 
     @Override
-    public void show(GameEditorComponent gameEditorComponent) { }
+    public void show(GameEditorComponent gameEditorComponent) {
+    }
+
+    @Override
+    public void show(Game game) {
+        title.value = game.getTitle();
+        year.value = "" + game.getYear();
+        id.value = game.getId();
+        type.value = game.getType();
+        rating.value = "" + game.getRating();
+        description.value = game.getDescription();
+    }
 
     public String getTitle() {
         return title.value;

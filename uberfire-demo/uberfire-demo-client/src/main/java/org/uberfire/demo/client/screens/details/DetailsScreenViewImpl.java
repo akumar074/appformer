@@ -15,38 +15,47 @@
  *
  */
 
-package org.uberfire.demo.client.screens.browser;
+package org.uberfire.demo.client.screens.details;
 
 import javax.inject.Inject;
 
 import elemental2.dom.HTMLDivElement;
+import elemental2.dom.HTMLElement;
+import org.jboss.errai.common.client.dom.elemental2.Elemental2DomUtil;
 import org.jboss.errai.ui.client.local.api.elemental2.IsElement;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
-import org.uberfire.demo.client.screens.browser.game.GameComponent;
 
 @Templated
-public class BrowserComponentViewImpl implements BrowserComponentView,
-                                                 IsElement {
-
-    @Inject
-    @DataField
-    private HTMLDivElement gameList;
+public class DetailsScreenViewImpl implements DetailsScreenView,
+                                              IsElement {
 
     private Presenter presenter;
 
-    @Override
-    public void show(GameComponent gameComponent) {
-        gameList.appendChild(gameComponent.getElement());
-    }
+    @Inject
+    private Elemental2DomUtil domUtil;
 
-    @Override
-    public void clearList() {
-        gameList.innerHTML = "";
-    }
+    @Inject
+    @DataField
+    private HTMLDivElement container;
 
     @Override
     public void init(Presenter presenter) {
         this.presenter = presenter;
+    }
+
+    @Override
+    public void clear() {
+        domUtil.removeAllElementChildren(container);
+    }
+
+    @Override
+    public void add(HTMLElement element) {
+        container.appendChild(element);
+    }
+
+    @Override
+    public HTMLElement getElement() {
+        return container;
     }
 }

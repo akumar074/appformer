@@ -101,25 +101,21 @@ public class UberfireDemoRegistryServiceImpl implements UberfireDemoRegistryServ
         return gameInfo;
     }
 
+    @Override
+    public Game edit(Game game) {
+        String path = game.getId() + EXTENSION;
+        Path fsPath = fileSystem.getPath(path);
+        iOService.deleteIfExists(fsPath);
+        iOService.write(fsPath, gson.toJson(game));
+        return game;
+    }
+
     public Game readObjectFromFile(Path path) {
         Game game = new Game();
         String result = iOService.readAllString(path);
         game = gson.fromJson(result, Game.class);
         return game;
     }
-
-//    public Game readObjectFromFile(String filePath) {
-//        Game game = new Game();
-//        try {
-//            File file = new File(filePath);
-//            FileInputStream stream = new FileInputStream(file);
-//            ObjectInputStream objectInputStream = new ObjectInputStream(stream);
-//            game = (Game) objectInputStream.readObject();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return game;
-//    }
 
     protected void initializeFileSystem() {
         final URI fileSystemURI = spaces.resolveFileSystemURI(SpacesAPI.Scheme.GIT, new Space("game-factory"), "game");

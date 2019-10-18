@@ -49,5 +49,6 @@ public class DetailsComponent implements DetailsComponentView.Presenter,
     }
 
     @Override
-    public void open() { }
+    public void open() {
+    }
 }

@@ -27,5 +27,7 @@ public interface GameComponentView extends UberElemental<GameComponentView.Prese
     interface Presenter {
 
         void open();
+
+        void edit();
     }
 }

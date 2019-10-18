@@ -57,25 +57,6 @@ public class BrowserScreen implements IsElement {
     public void init() {
         headingElement.textContent = "Browser Screen";
         headingElement.style.color = "blue";
-//        List<Game> games = new ArrayList<>();
-//        Game game1 = new Game();
-//        game1.setTitle("Call of Duty");
-//        game1.setYear(2001);
-//        game1.setType("War");
-//        game1.setId("ga001");
-//        game1.setDescription("World war game you can play (PG rating: PG13)");
-//        game1.setRating(10);
-//        Game game2 = new Game();
-//        game2.setTitle("God of War");
-//        game2.setYear(2006);
-//        game2.setType("Fantasy");
-//        game2.setId("ga002");
-//        game2.setDescription("Fantasy game you can play (PG rating: PG13)");
-//        game2.setRating(9);
-//        games.add(game1);
-//        games.add(game2);
-
-//        browserComponent.show(games);
         browserComponent.load();
     }
 

@@ -29,6 +29,5 @@ public interface BrowserComponentView extends UberElemental<BrowserComponentView
     interface Presenter {
 
         void open();
-
     }
 }

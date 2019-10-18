@@ -69,7 +69,7 @@ public class BrowserComponent implements BrowserComponentView.Presenter,
 
         } else {
             view.clearList();
-            show((List)gameList);
+            show((List) gameList);
         }
     }
 

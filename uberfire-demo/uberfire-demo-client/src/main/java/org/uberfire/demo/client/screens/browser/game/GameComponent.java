@@ -22,9 +22,16 @@ import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
 import elemental2.dom.HTMLElement;
+import elemental2.dom.HTMLImageElement;
 import org.jboss.errai.common.client.api.elemental2.IsElement;
+import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.demo.api.model.Game;
 import org.uberfire.demo.client.event.GameDetailEvent;
+import org.uberfire.demo.client.event.GameEditEvent;
+import org.uberfire.demo.client.screens.details.DetailsScreen;
+import org.uberfire.demo.client.screens.editor.GameEditorComponent;
+import org.uberfire.demo.client.screens.editor.GameEditorPopUp;
+import org.uberfire.mvp.impl.DefaultPlaceRequest;
 
 @Dependent
 public class GameComponent implements GameComponentView.Presenter,
@@ -35,7 +42,13 @@ public class GameComponent implements GameComponentView.Presenter,
     private GameComponentView view;
 
     @Inject
+    private PlaceManager placeManager;
+
+    @Inject
     private Event<GameDetailEvent> event;
+
+    @Inject
+    private Event<GameEditEvent> editEvent;
 
     public void show(Game game) {
         this.game = game;
@@ -56,5 +69,10 @@ public class GameComponent implements GameComponentView.Presenter,
     @Override
     public void open() {
         event.fire(new GameDetailEvent(game));
+    }
+
+    @Override
+    public void edit() {
+        editEvent.fire(new GameEditEvent(game));
     }
 }

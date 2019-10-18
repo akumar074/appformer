@@ -31,7 +31,8 @@ public class DemoGameResourceType implements ClientResourceType {
 
     private Category category;
 
-    public DemoGameResourceType() { }
+    public DemoGameResourceType() {
+    }
 
     @Inject
     public DemoGameResourceType(final Others category) {
@@ -45,12 +46,12 @@ public class DemoGameResourceType implements ClientResourceType {
 
     @Override
     public String getShortName() {
-        return "Experimental Asset";
+        return "Game Asset";
     }
 
     @Override
     public String getDescription() {
-        return "Experimental Asset";
+        return "Game Asset";
     }
 
     @Override
@@ -65,7 +66,7 @@ public class DemoGameResourceType implements ClientResourceType {
 
     @Override
     public String getSuffix() {
-        return "exp";
+        return "game";
     }
 
     @Override
@@ -75,7 +76,7 @@ public class DemoGameResourceType implements ClientResourceType {
 
     @Override
     public String getSimpleWildcardPattern() {
-        return "*.exp";
+        return "*.game";
     }
 
     @Override
