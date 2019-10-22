@@ -65,9 +65,7 @@ public class BrowserComponent implements BrowserComponentView.Presenter,
 
     public void loadGames(Collection<Game> gameList) {
 
-        if (gameList == null || gameList.isEmpty()) {
-
-        } else {
+        if (gameList != null || !gameList.isEmpty()) {
             view.clearList();
             show((List) gameList);
         }

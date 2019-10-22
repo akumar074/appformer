@@ -50,22 +50,12 @@ public class DetailsScreen implements IsElement {
     private DetailsScreenView view;
 
     @PostConstruct
-    public void init() {
-        Game game = new Game();
-        game.setTitle("Pac-Man");
-        game.setYear(1984);
-        game.setType("Arcade");
-        game.setId("ga001");
-        game.setDescription("Classic Arcade game you can play (PG rating: U/A)");
-        game.setRating(9);
-        detailsComponent.show(game);
-    }
+    public void init() { }
 
     public void viewGame(@Observes GameDetailEvent event) {
         view.clear();
         view.add(detailsComponent.getElement());
         detailsComponent.show(event.getGame());
-
     }
 
     public void editGame(@Observes GameEditEvent event) {

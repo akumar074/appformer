@@ -28,9 +28,7 @@ import org.jboss.errai.common.client.api.RemoteCallback;
 import org.jboss.errai.common.client.api.elemental2.IsElement;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.demo.api.model.Game;
-import org.uberfire.demo.api.model.GameInfo;
 import org.uberfire.demo.client.event.NewGameEvent;
-import org.uberfire.demo.client.screens.browser.game.GameComponent;
 import org.uberfire.demo.service.UberfireDemoRegistryService;
 
 @Dependent

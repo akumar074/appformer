@@ -75,11 +75,9 @@ public class UberfireDemoRegistryServiceImpl implements UberfireDemoRegistryServ
     public Game add(Game game) {
         String path = game.getId() + EXTENSION;
         Path fsPath = fileSystem.getPath(path);
-        if (!iOService.exists(fsPath)) {
-            iOService.write(fsPath, gson.toJson(game));
-            return game;
-        }
-        throw new FileSystemAlreadyExistsException(fsPath.toString());
+//        iOService.deleteIfExists(fsPath);
+        iOService.write(fsPath, gson.toJson(game));
+        return game;
     }
 
     @Override
@@ -101,15 +99,6 @@ public class UberfireDemoRegistryServiceImpl implements UberfireDemoRegistryServ
         return gameInfo;
     }
 
-    @Override
-    public Game edit(Game game) {
-        String path = game.getId() + EXTENSION;
-        Path fsPath = fileSystem.getPath(path);
-        iOService.deleteIfExists(fsPath);
-        iOService.write(fsPath, gson.toJson(game));
-        return game;
-    }
-
     public Game readObjectFromFile(Path path) {
         Game game = new Game();
         String result = iOService.readAllString(path);
@@ -119,7 +108,6 @@ public class UberfireDemoRegistryServiceImpl implements UberfireDemoRegistryServ
 
     protected void initializeFileSystem() {
         final URI fileSystemURI = spaces.resolveFileSystemURI(SpacesAPI.Scheme.GIT, new Space("game-factory"), "game");
-
         try {
             Map<String, Object> options = new HashMap<>();
             options.put("init", Boolean.TRUE);

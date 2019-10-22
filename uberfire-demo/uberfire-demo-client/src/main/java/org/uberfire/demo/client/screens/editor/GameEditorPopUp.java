@@ -47,8 +47,7 @@ public class GameEditorPopUp implements IsElement {
     private GameEditorComponent gameEditorComponent;
 
     @PostConstruct
-    public void setup() {
-    }
+    public void setup() { }
 
     @Override
     public HTMLElement getElement() {

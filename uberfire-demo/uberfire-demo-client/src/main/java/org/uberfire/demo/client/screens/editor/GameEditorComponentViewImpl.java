@@ -88,6 +88,7 @@ public class GameEditorComponentViewImpl implements GameEditorComponentView,
         type.value = game.getType();
         rating.value = "" + game.getRating();
         description.value = game.getDescription();
+        id.disabled = game != null;
     }
 
     public String getTitle() {
