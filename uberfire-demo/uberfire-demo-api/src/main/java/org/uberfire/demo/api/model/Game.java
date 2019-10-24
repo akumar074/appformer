@@ -94,4 +94,16 @@ public class Game {
     public void setRating(int rating) {
         this.rating = rating;
     }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", year=" + year +
+                ", type='" + type + '\'' +
+                ", description='" + description + '\'' +
+                ", rating=" + rating +
+                '}';
+    }
 }

@@ -15,23 +15,19 @@
  *
  */
 
-package org.uberfire.demo.client.screens.browser.game;
+package org.uberfire.demo.client.screens.editor;
 
-import org.uberfire.client.mvp.UberElemental;
+import elemental2.dom.HTMLElement;
 import org.uberfire.demo.api.model.Game;
+import org.uberfire.ext.editor.commons.client.BaseEditorView;
 
-public interface GameComponentView extends UberElemental<GameComponentView.Presenter> {
+public interface GameEditorView extends BaseEditorView {
 
-    void show(Game game);
+    void showContent(Game content);
 
-    Game getGame();
+    Game getContent();
 
-    interface Presenter {
+    void init(Presenter presenter);
 
-        void open();
-
-        void edit();
-
-        void openEditor();
-    }
+    interface Presenter { }
 }

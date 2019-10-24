@@ -21,6 +21,7 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import elemental2.dom.HTMLElement;
 import org.jboss.errai.common.client.api.Caller;
@@ -52,15 +53,11 @@ public class GameEditorComponent implements GameEditorComponentView.Presenter,
         view.init(this);
     }
 
+    private Game game;
+
     @Override
     public void createGame() {
-        Game game = new Game();
-        game.setType(view.getType());
-        game.setId(view.getId());
-        game.setRating(view.getRating());
-        game.setDescription(view.getDescription());
-        game.setYear(view.getYear());
-        game.setTitle(view.getTitle());
+        Game game = getGame();
         serviceCaller.call(new RemoteCallback<Game>() {
             @Override
             public void callback(Game game) {
@@ -70,6 +67,19 @@ public class GameEditorComponent implements GameEditorComponentView.Presenter,
             }
         }).add(game);
     }
+
+    public Game getGame() {
+        this.game = new Game();
+        game.setType(view.getType());
+        game.setId(view.getId());
+        game.setRating(view.getRating());
+        game.setDescription(view.getDescription());
+        game.setYear(view.getYear());
+        game.setTitle(view.getTitle());
+        return game;
+    }
+
+    public GameEditorComponentView getView() { return view; }
 
     public void show(GameEditorComponent component) {
         view.show(component);

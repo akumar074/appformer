@@ -54,4 +54,12 @@ public class GameInfo {
     public void setGame(Game game) {
         this.game = game;
     }
+
+    @Override
+    public String toString() {
+        return "GameInfo{" +
+                "path=" + path +
+                ", game=" + game +
+                '}';
+    }
 }

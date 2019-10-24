@@ -33,6 +33,8 @@ import org.jboss.errai.common.client.api.RemoteCallback;
 import org.jboss.errai.ioc.client.api.ManagedInstance;
 import org.jboss.errai.ui.client.local.api.elemental2.IsElement;
 import org.uberfire.demo.api.model.Game;
+import org.uberfire.demo.api.model.GameInfo;
+import org.uberfire.demo.client.event.GameDeleteEvent;
 import org.uberfire.demo.client.event.NewGameEvent;
 import org.uberfire.demo.client.screens.browser.game.GameComponent;
 import org.uberfire.demo.service.UberfireDemoRegistryService;
@@ -41,7 +43,7 @@ import org.uberfire.demo.service.UberfireDemoRegistryService;
 public class BrowserComponent implements BrowserComponentView.Presenter,
                                          IsElement {
 
-    private List<Game> gameList;
+    private List<GameInfo> gameList;
 
     private BrowserComponentView view;
 
@@ -60,18 +62,17 @@ public class BrowserComponent implements BrowserComponentView.Presenter,
     }
 
     public void load() {
-        serviceCaller.call((RemoteCallback<Collection<Game>>) this::loadGames).getList();
+        serviceCaller.call((RemoteCallback<Collection<GameInfo>>) this::loadGames).getList();
     }
 
-    public void loadGames(Collection<Game> gameList) {
-
+    public void loadGames(Collection<GameInfo> gameList) {
         if (gameList != null || !gameList.isEmpty()) {
             view.clearList();
             show((List) gameList);
         }
     }
 
-    public void show(List<Game> gameList) {
+    public void show(List<GameInfo> gameList) {
         this.gameList = gameList;
         this.gameList.forEach((game) -> {
             GameComponent gameComponent = gameComponents.get();
@@ -83,6 +84,8 @@ public class BrowserComponent implements BrowserComponentView.Presenter,
     public void addNewGame(@Observes NewGameEvent event) {
         load();
     }
+
+    public void onDelete(@Observes GameDeleteEvent deleteEvent) { load(); }
 
     @Override
     public void open() {

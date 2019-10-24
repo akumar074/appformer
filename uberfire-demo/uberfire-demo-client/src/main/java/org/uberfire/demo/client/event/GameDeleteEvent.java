@@ -15,23 +15,19 @@
  *
  */
 
-package org.uberfire.demo.client.screens.browser.game;
+package org.uberfire.demo.client.event;
 
-import org.uberfire.client.mvp.UberElemental;
 import org.uberfire.demo.api.model.Game;
 
-public interface GameComponentView extends UberElemental<GameComponentView.Presenter> {
+public class GameDeleteEvent {
 
-    void show(Game game);
+    private Game game;
 
-    Game getGame();
+    public GameDeleteEvent(Game game) {
+        this.game = game;
+    }
 
-    interface Presenter {
-
-        void open();
-
-        void edit();
-
-        void openEditor();
+    public Game getGame() {
+        return game;
     }
 }

@@ -17,9 +17,9 @@
 
 package org.uberfire.demo.client.screens.editor;
 
-import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import elemental2.dom.HTMLButtonElement;
 import elemental2.dom.HTMLInputElement;
@@ -27,12 +27,11 @@ import org.jboss.errai.ui.client.local.api.elemental2.IsElement;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
-import org.uberfire.commons.uuid.UUID;
 import org.uberfire.demo.api.model.Game;
 
 @Templated
 public class GameEditorComponentViewImpl implements GameEditorComponentView,
-                                                    IsElement {
+                                                    IsElement{
 
     @Inject
     @DataField
@@ -64,8 +63,6 @@ public class GameEditorComponentViewImpl implements GameEditorComponentView,
 
     private Presenter presenter;
 
-    private UUID uuid;
-
     @Override
     public void init(Presenter presenter) {
         this.presenter = presenter;
@@ -88,7 +85,7 @@ public class GameEditorComponentViewImpl implements GameEditorComponentView,
         type.value = game.getType();
         rating.value = "" + game.getRating();
         description.value = game.getDescription();
-        id.disabled = game != null;
+        id.disabled = (game != null);
     }
 
     public String getTitle() {
@@ -114,4 +111,5 @@ public class GameEditorComponentViewImpl implements GameEditorComponentView,
     public int getRating() {
         return Integer.parseInt(rating.value);
     }
+
 }

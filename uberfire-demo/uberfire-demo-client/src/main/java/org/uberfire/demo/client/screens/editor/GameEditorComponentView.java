@@ -20,14 +20,13 @@ package org.uberfire.demo.client.screens.editor;
 import org.uberfire.client.mvp.UberElemental;
 import org.uberfire.demo.api.model.Game;
 
-public interface GameEditorComponentView extends UberElemental<GameEditorComponentView.Presenter> {
+public interface GameEditorComponentView extends UberElemental<GameEditorComponentView.Presenter>{
 
     void show(GameEditorComponent gameEditorComponent);
 
     void show(Game game);
 
     interface Presenter {
-
         void createGame();
     }
 

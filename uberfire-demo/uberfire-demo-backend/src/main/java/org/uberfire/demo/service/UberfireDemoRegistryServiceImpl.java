@@ -75,15 +75,14 @@ public class UberfireDemoRegistryServiceImpl implements UberfireDemoRegistryServ
     public Game add(Game game) {
         String path = game.getId() + EXTENSION;
         Path fsPath = fileSystem.getPath(path);
-//        iOService.deleteIfExists(fsPath);
         iOService.write(fsPath, gson.toJson(game));
         return game;
     }
 
     @Override
-    public List<Game> getList() {
+    public List<GameInfo> getList() {
         Path fsPath = fileSystem.getPath("/");
-        final List<Game> result = new ArrayList<>();
+        final List<GameInfo> result = new ArrayList<>();
         iOService.newDirectoryStream(fsPath, entry -> entry.getFileName().toString().endsWith(EXTENSION))
                 .forEach(assetPath -> result.add(readObjectFromFile(assetPath)));
         return result;
@@ -99,11 +98,18 @@ public class UberfireDemoRegistryServiceImpl implements UberfireDemoRegistryServ
         return gameInfo;
     }
 
-    public Game readObjectFromFile(Path path) {
-        Game game = new Game();
+    @Override
+    public GameInfo viewGame(org.uberfire.backend.vfs.Path path) {
+        Path fspath = Paths.convert(path);
+        return readObjectFromFile(fspath);
+    }
+
+    public GameInfo readObjectFromFile(Path path) {
         String result = iOService.readAllString(path);
-        game = gson.fromJson(result, Game.class);
-        return game;
+        Game game = gson.fromJson(result, Game.class);
+        GameInfo gameInfo = new GameInfo(game);
+        gameInfo.setPath(Paths.convert(path));
+        return gameInfo;
     }
 
     protected void initializeFileSystem() {
@@ -117,5 +123,11 @@ public class UberfireDemoRegistryServiceImpl implements UberfireDemoRegistryServ
         } catch (FileSystemAlreadyExistsException e) {
             fileSystem = iOService.getFileSystem(fileSystemURI);
         }
+    }
+
+    @Override
+    public void delete(org.uberfire.backend.vfs.Path path, String comment) {
+        Path fsPath = Paths.convert(path);
+        iOService.deleteIfExists(fsPath);
     }
 }

@@ -17,20 +17,26 @@
 
 package org.uberfire.demo.client.screens.browser.game;
 
+import java.nio.file.Paths;
+
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
+import com.google.gwt.core.client.GWT;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLImageElement;
 import org.jboss.errai.common.client.api.elemental2.IsElement;
+import org.uberfire.backend.vfs.Path;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.demo.api.model.Game;
+import org.uberfire.demo.api.model.GameInfo;
 import org.uberfire.demo.client.event.GameDetailEvent;
 import org.uberfire.demo.client.event.GameEditEvent;
 import org.uberfire.demo.client.screens.details.DetailsScreen;
 import org.uberfire.demo.client.screens.editor.GameEditorComponent;
 import org.uberfire.demo.client.screens.editor.GameEditorPopUp;
+import org.uberfire.mvp.Command;
 import org.uberfire.mvp.impl.DefaultPlaceRequest;
 
 @Dependent
@@ -50,9 +56,16 @@ public class GameComponent implements GameComponentView.Presenter,
     @Inject
     private Event<GameEditEvent> editEvent;
 
-    public void show(Game game) {
-        this.game = game;
+    private Path path;
+
+    public void show(GameInfo gameInfo) {
+        this.game = gameInfo.getGame();
+        this.path = gameInfo.getPath();
         view.show(game);
+    }
+
+    public void render(Path assetPath) {
+        this.path = assetPath;
     }
 
     @Inject
@@ -68,11 +81,15 @@ public class GameComponent implements GameComponentView.Presenter,
 
     @Override
     public void open() {
+        placeManager.goTo("Details");
         event.fire(new GameDetailEvent(game));
     }
 
     @Override
-    public void edit() {
-        editEvent.fire(new GameEditEvent(game));
+    public void edit() { editEvent.fire(new GameEditEvent(game)); }
+
+    @Override
+    public void openEditor() {
+        placeManager.goTo(path);
     }
 }

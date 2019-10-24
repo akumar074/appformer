@@ -29,6 +29,7 @@ import org.jboss.errai.common.client.api.elemental2.IsElement;
 import org.uberfire.client.annotations.WorkbenchPartTitle;
 import org.uberfire.client.annotations.WorkbenchPartView;
 import org.uberfire.client.annotations.WorkbenchScreen;
+import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.demo.api.model.Game;
 import org.uberfire.demo.client.event.GameDetailEvent;
 import org.uberfire.demo.client.event.GameEditEvent;
@@ -48,6 +49,9 @@ public class DetailsScreen implements IsElement {
 
     @Inject
     private DetailsScreenView view;
+
+    @Inject
+    private PlaceManager placeManager;
 
     @PostConstruct
     public void init() { }

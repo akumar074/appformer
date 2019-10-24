@@ -1,0 +1,100 @@
+/*
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+package org.uberfire.demo.client.screens.editor;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Composite;
+import org.jboss.errai.ui.shared.api.annotations.DataField;
+import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.uberfire.demo.api.model.Game;
+import org.uberfire.ext.editor.commons.client.EditorTitle;
+import org.uberfire.ext.widgets.common.client.common.BusyPopup;
+
+@Templated
+public class GameEditorViewImpl extends Composite implements GameEditorView {
+
+    private Presenter presenter;
+    private EditorTitle title;
+
+    @Inject
+    @DataField
+    private GameEditorComponent gameEditorComponent;
+
+    @PostConstruct
+    public void init() {
+        title = new EditorTitle();
+    }
+
+    @Override
+    public void showContent(Game content) {
+        gameEditorComponent.show(content);
+    }
+
+    @Override
+    public Game getContent() {
+        return gameEditorComponent.getGame();
+    }
+
+    @Override
+    public void init(Presenter presenter) {
+        this.presenter = presenter;
+    }
+
+    @Override
+    public void showLoading() {
+        showBusyIndicator("loading");
+    }
+
+    @Override
+    public void showSaving() {
+        showBusyIndicator("saving");
+    }
+
+    @Override
+    public void alertReadOnly() {
+        Window.alert("readonly!");
+    }
+
+    @Override
+    public EditorTitle getTitleWidget() {
+        return title;
+    }
+
+    @Override
+    public void refreshTitle(String value) {
+        title.setText(value);
+    }
+
+    @Override
+    public boolean confirmClose() {
+        return Window.confirm("close?");
+    }
+
+    @Override
+    public void showBusyIndicator(String message) {
+        BusyPopup.showMessage(message);
+    }
+
+    @Override
+    public void hideBusyIndicator() {
+        BusyPopup.close();
+    }
+}
