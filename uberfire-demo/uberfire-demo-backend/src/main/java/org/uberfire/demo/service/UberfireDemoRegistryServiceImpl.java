@@ -72,11 +72,9 @@ public class UberfireDemoRegistryServiceImpl implements UberfireDemoRegistryServ
     }
 
     @Override
-    public Game add(Game game) {
-        String path = game.getId() + EXTENSION;
-        Path fsPath = fileSystem.getPath(path);
+    public void add(Game game) {
+        Path fsPath = fileSystem.getPath(game.getId() + EXTENSION);
         iOService.write(fsPath, gson.toJson(game));
-        return game;
     }
 
     @Override
@@ -89,13 +87,9 @@ public class UberfireDemoRegistryServiceImpl implements UberfireDemoRegistryServ
     }
 
     @Override
-    public GameInfo delete(GameInfo gameInfo) {
-        gameList.forEach((g) -> {
-            if (g.getGame().getId().equals(gameInfo.getGame().getId())) {
-                gameList.remove(g);
-            }
-        });
-        return gameInfo;
+    public void delete(Game game) {
+        Path fsPath = fileSystem.getPath(game.getId() + EXTENSION);
+        iOService.deleteIfExists(fsPath);
     }
 
     @Override

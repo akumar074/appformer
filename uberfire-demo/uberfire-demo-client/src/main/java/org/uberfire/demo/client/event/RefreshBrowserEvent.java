@@ -15,31 +15,22 @@
  *
  */
 
-package org.uberfire.demo.client.screens.editor;
+package org.uberfire.demo.client.event;
 
-import org.uberfire.client.mvp.UberElemental;
 import org.uberfire.demo.api.model.Game;
 
-public interface GameEditorComponentView extends UberElemental<GameEditorComponentView.Presenter> {
+public class RefreshBrowserEvent {
 
-    void show(GameEditorComponent gameEditorComponent);
+    private Game game;
 
-    void show(Game game);
-
-    interface Presenter {
-
-        void createGame();
+    public RefreshBrowserEvent() {
     }
 
-    public String getTitle();
+    public RefreshBrowserEvent(Game game) {
+        this.game = game;
+    }
 
-    public int getYear();
-
-    public String getId();
-
-    public String getType();
-
-    public String getDescription();
-
-    public int getRating();
+    public Game getGame() {
+        return game;
+    }
 }

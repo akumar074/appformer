@@ -28,7 +28,8 @@ public class GameInfo {
 
     private Game game;
 
-    public GameInfo() { }
+    public GameInfo() {
+    }
 
     public GameInfo(@MapsTo("path") Path path, @MapsTo("game") Game game) {
         this.path = path;

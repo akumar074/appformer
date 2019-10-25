@@ -31,7 +31,7 @@ import org.uberfire.demo.api.model.Game;
 
 @Templated
 public class GameEditorComponentViewImpl implements GameEditorComponentView,
-                                                    IsElement{
+                                                    IsElement {
 
     @Inject
     @DataField
@@ -111,5 +111,4 @@ public class GameEditorComponentViewImpl implements GameEditorComponentView,
     public int getRating() {
         return Integer.parseInt(rating.value);
     }
-
 }

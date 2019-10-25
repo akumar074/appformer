@@ -35,7 +35,8 @@ public class Game {
 
     private int rating;
 
-    public Game() { }
+    public Game() {
+    }
 
     public Game(@MapsTo("id") String id, @MapsTo("title") String title, @MapsTo("year") int year,
                 @MapsTo("type") String type, @MapsTo("description") String description, @MapsTo("rating") int rating) {

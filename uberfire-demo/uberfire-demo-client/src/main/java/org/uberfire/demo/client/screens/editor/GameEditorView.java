@@ -29,5 +29,7 @@ public interface GameEditorView extends BaseEditorView {
 
     void init(Presenter presenter);
 
-    interface Presenter { }
+    interface Presenter {
+
+    }
 }

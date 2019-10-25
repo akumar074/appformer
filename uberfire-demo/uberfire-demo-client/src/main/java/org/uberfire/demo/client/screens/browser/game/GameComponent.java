@@ -86,7 +86,9 @@ public class GameComponent implements GameComponentView.Presenter,
     }
 
     @Override
-    public void edit() { editEvent.fire(new GameEditEvent(game)); }
+    public void edit() {
+        editEvent.fire(new GameEditEvent(game));
+    }
 
     @Override
     public void openEditor() {

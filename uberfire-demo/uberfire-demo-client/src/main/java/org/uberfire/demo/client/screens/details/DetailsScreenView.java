@@ -26,5 +26,7 @@ public interface DetailsScreenView extends UberElemental<DetailsScreenView.Prese
 
     void add(HTMLElement element);
 
-    interface Presenter {}
+    interface Presenter {
+
+    }
 }

@@ -36,6 +36,7 @@ import org.uberfire.demo.api.model.Game;
 import org.uberfire.demo.api.model.GameInfo;
 import org.uberfire.demo.client.event.GameDeleteEvent;
 import org.uberfire.demo.client.event.NewGameEvent;
+import org.uberfire.demo.client.event.RefreshBrowserEvent;
 import org.uberfire.demo.client.screens.browser.game.GameComponent;
 import org.uberfire.demo.service.UberfireDemoRegistryService;
 
@@ -81,11 +82,9 @@ public class BrowserComponent implements BrowserComponentView.Presenter,
         });
     }
 
-    public void addNewGame(@Observes NewGameEvent event) {
+    public void refreshBrowser(@Observes RefreshBrowserEvent event) {
         load();
     }
-
-    public void onDelete(@Observes GameDeleteEvent deleteEvent) { load(); }
 
     @Override
     public void open() {

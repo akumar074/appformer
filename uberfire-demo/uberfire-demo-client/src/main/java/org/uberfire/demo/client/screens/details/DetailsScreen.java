@@ -54,7 +54,8 @@ public class DetailsScreen implements IsElement {
     private PlaceManager placeManager;
 
     @PostConstruct
-    public void init() { }
+    public void init() {
+    }
 
     public void viewGame(@Observes GameDetailEvent event) {
         view.clear();

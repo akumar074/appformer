@@ -30,6 +30,7 @@ import org.jboss.errai.common.client.api.elemental2.IsElement;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.demo.api.model.Game;
 import org.uberfire.demo.client.event.NewGameEvent;
+import org.uberfire.demo.client.event.RefreshBrowserEvent;
 import org.uberfire.demo.service.UberfireDemoRegistryService;
 
 @Dependent
@@ -42,7 +43,7 @@ public class GameEditorComponent implements GameEditorComponentView.Presenter,
     private PlaceManager placeManager;
 
     @Inject
-    private Event<NewGameEvent> event;
+    private Event<RefreshBrowserEvent> event;
 
     @Inject
     private Caller<UberfireDemoRegistryService> serviceCaller;
@@ -58,13 +59,10 @@ public class GameEditorComponent implements GameEditorComponentView.Presenter,
     @Override
     public void createGame() {
         Game game = getGame();
-        serviceCaller.call(new RemoteCallback<Game>() {
-            @Override
-            public void callback(Game game) {
-                Window.alert("Game " + game.getTitle() + " Added");
-                placeManager.closePlace(GameEditorPopUp.IDENTIFIER);
-                eventGenerated();
-            }
+        serviceCaller.call((RemoteCallback<Void>) response -> {
+            Window.alert("Game " + game.getTitle() + " Added");
+            placeManager.closePlace(GameEditorPopUp.IDENTIFIER);
+            eventGenerated();
         }).add(game);
     }
 
@@ -79,7 +77,9 @@ public class GameEditorComponent implements GameEditorComponentView.Presenter,
         return game;
     }
 
-    public GameEditorComponentView getView() { return view; }
+    public GameEditorComponentView getView() {
+        return view;
+    }
 
     public void show(GameEditorComponent component) {
         view.show(component);
@@ -90,7 +90,7 @@ public class GameEditorComponent implements GameEditorComponentView.Presenter,
     }
 
     public void eventGenerated() {
-        event.fire(new NewGameEvent(new Game()));
+        event.fire(new RefreshBrowserEvent());
     }
 
     @Override

@@ -11,12 +11,11 @@ import org.uberfire.ext.editor.commons.service.support.SupportsDelete;
 @Remote
 public interface UberfireDemoRegistryService extends SupportsDelete {
 
-    Game add(Game game);
+    void add(Game game);
 
     List<GameInfo> getList();
 
     GameInfo viewGame(Path path);
 
-    GameInfo delete(GameInfo game);
-
+    void delete(Game game);
 }

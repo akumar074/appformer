@@ -27,6 +27,7 @@ import javax.inject.Inject;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.IsWidget;
+import elemental2.promise.Promise;
 import org.jboss.errai.common.client.api.Caller;
 import org.jboss.errai.common.client.api.RemoteCallback;
 import org.jboss.errai.common.client.ui.ElementWrapperWidget;
@@ -36,10 +37,12 @@ import org.uberfire.client.annotations.WorkbenchMenu;
 import org.uberfire.client.annotations.WorkbenchPartTitle;
 import org.uberfire.client.annotations.WorkbenchPartTitleDecoration;
 import org.uberfire.client.annotations.WorkbenchPartView;
+import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.demo.api.model.Game;
 import org.uberfire.demo.api.model.GameInfo;
 import org.uberfire.demo.client.event.GameDeleteEvent;
 import org.uberfire.demo.client.event.GameEditEvent;
+import org.uberfire.demo.client.event.RefreshBrowserEvent;
 import org.uberfire.demo.client.screens.browser.game.DemoGameResourceType;
 import org.uberfire.demo.service.UberfireDemoRegistryService;
 import org.uberfire.ext.editor.commons.client.BaseEditor;
@@ -64,7 +67,10 @@ public class GameWorkbenchEditor extends BaseEditor<Game, DefaultMetadata> {
     private final Caller<UberfireDemoRegistryService> serviceCaller;
 
     @Inject
-    private Event<GameDeleteEvent> gameDeleteEvent;
+    private Event<RefreshBrowserEvent> refreshBrowserEvent;
+
+    @Inject
+    private PlaceManager placeManager;
 
     @Inject
     public GameWorkbenchEditor(final DemoGameResourceType resourceType, final GameEditor editor,
@@ -88,28 +94,43 @@ public class GameWorkbenchEditor extends BaseEditor<Game, DefaultMetadata> {
                           final PlaceRequest place) {
         init(path,
              place,
-             resourceType,
-             SAVE,
-             DELETE);
+             resourceType);
     }
 
     @Override
-    protected Supplier<Game> getContentSupplier() { return editor::getContent; }
+    protected Promise<Void> makeMenuBar() {
+        menuBuilder.addSave(this::save);
+        menuBuilder.addDelete(this::delete);
+        return promises.resolve();
+    }
+
+    @Override
+    protected Supplier<Game> getContentSupplier() {
+        return editor::getContent;
+    }
 
     @Override
     protected Caller<? extends SupportsDelete> getDeleteServiceCaller() {
-        gameDeleteEvent.fire(new GameDeleteEvent(new Game()));
         return serviceCaller;
+    }
+
+    private void delete() {
+        // call delete method on service
+        // on callback close the editor
+        // Notify the browser to refresh
+        final Game game = editor.getContent();
+        serviceCaller.call((RemoteCallback<Void>) response -> {
+            placeManager.closePlace(GameWorkbenchEditor.IDENTIFIER);
+            refreshBrowserEvent.fire(new RefreshBrowserEvent());
+        }).delete(game);
+        concurrentUpdateSessionInfo = null;
     }
 
     @Override
     protected void save() {
         final Game game = editor.getContent();
-        serviceCaller.call(new RemoteCallback() {
-            @Override
-            public void callback(Object response) {
-                gameDeleteEvent.fire(new GameDeleteEvent(game));
-            }
+        serviceCaller.call((RemoteCallback<Void>) response -> {
+            refreshBrowserEvent.fire(new RefreshBrowserEvent());
         }).add(game);
         concurrentUpdateSessionInfo = null;
     }
@@ -135,5 +156,4 @@ public class GameWorkbenchEditor extends BaseEditor<Game, DefaultMetadata> {
     public IsWidget getView() {
         return editor.getView();
     }
-
 }

@@ -31,9 +31,6 @@ public class GameEditor implements GameEditorView.Presenter {
     private GameEditorView view;
 
     @Inject
-    private PlaceManager placeManager;
-
-    @Inject
     public GameEditor(GameEditorView view) {
         this.view = view;
     }
@@ -49,9 +46,4 @@ public class GameEditor implements GameEditorView.Presenter {
     public GameEditorView getView() {
         return view;
     }
-
-    public void onDelete(@Observes GameDeleteEvent deleteEvent) {
-        placeManager.closePlace(GameWorkbenchEditor.IDENTIFIER);
-    }
-
 }
