@@ -23,8 +23,7 @@ public class RefreshBrowserEvent {
 
     private Game game;
 
-    public RefreshBrowserEvent() {
-    }
+    public RefreshBrowserEvent() { }
 
     public RefreshBrowserEvent(Game game) {
         this.game = game;

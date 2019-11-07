@@ -60,7 +60,7 @@ public class DemoPerspective {
 
     @WorkbenchMenu
     public void getMenus(final Consumer<Menus> consumer) {
-        consumer.accept(MenuFactory.newTopLevelMenu("Do Nothing").respondsWith(() -> Window.alert("Hola"))
+        consumer.accept(MenuFactory.newTopLevelMenu("Hello!").respondsWith(() -> Window.alert("Hola"))
                                 .position(MenuPosition.RIGHT).endMenu().build());
     }
 }

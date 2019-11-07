@@ -22,15 +22,12 @@ import java.util.function.Supplier;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Event;
-import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.IsWidget;
 import elemental2.promise.Promise;
 import org.jboss.errai.common.client.api.Caller;
 import org.jboss.errai.common.client.api.RemoteCallback;
-import org.jboss.errai.common.client.ui.ElementWrapperWidget;
 import org.uberfire.backend.vfs.ObservablePath;
 import org.uberfire.client.annotations.WorkbenchEditor;
 import org.uberfire.client.annotations.WorkbenchMenu;
@@ -40,21 +37,16 @@ import org.uberfire.client.annotations.WorkbenchPartView;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.demo.api.model.Game;
 import org.uberfire.demo.api.model.GameInfo;
-import org.uberfire.demo.client.event.GameDeleteEvent;
-import org.uberfire.demo.client.event.GameEditEvent;
+import org.uberfire.demo.client.event.GameDetailEvent;
 import org.uberfire.demo.client.event.RefreshBrowserEvent;
 import org.uberfire.demo.client.screens.browser.game.DemoGameResourceType;
 import org.uberfire.demo.service.UberfireDemoRegistryService;
 import org.uberfire.ext.editor.commons.client.BaseEditor;
-import org.uberfire.ext.editor.commons.client.BaseEditorView;
 import org.uberfire.ext.editor.commons.file.DefaultMetadata;
 import org.uberfire.ext.editor.commons.service.support.SupportsDelete;
 import org.uberfire.lifecycle.OnStartup;
 import org.uberfire.mvp.PlaceRequest;
 import org.uberfire.workbench.model.menu.Menus;
-
-import static org.uberfire.ext.editor.commons.client.menu.MenuItems.DELETE;
-import static org.uberfire.ext.editor.commons.client.menu.MenuItems.SAVE;
 
 @Dependent
 @WorkbenchEditor(identifier = GameWorkbenchEditor.IDENTIFIER, supportedTypes = DemoGameResourceType.class)
@@ -68,6 +60,9 @@ public class GameWorkbenchEditor extends BaseEditor<Game, DefaultMetadata> {
 
     @Inject
     private Event<RefreshBrowserEvent> refreshBrowserEvent;
+
+    @Inject
+    private Event<GameDetailEvent> gameDetailEvent;
 
     @Inject
     private PlaceManager placeManager;
@@ -115,12 +110,9 @@ public class GameWorkbenchEditor extends BaseEditor<Game, DefaultMetadata> {
     }
 
     private void delete() {
-        // call delete method on service
-        // on callback close the editor
-        // Notify the browser to refresh
         final Game game = editor.getContent();
         serviceCaller.call((RemoteCallback<Void>) response -> {
-            placeManager.closePlace(GameWorkbenchEditor.IDENTIFIER);
+            placeManager.closePlace(place);
             refreshBrowserEvent.fire(new RefreshBrowserEvent());
         }).delete(game);
         concurrentUpdateSessionInfo = null;
@@ -130,6 +122,7 @@ public class GameWorkbenchEditor extends BaseEditor<Game, DefaultMetadata> {
     protected void save() {
         final Game game = editor.getContent();
         serviceCaller.call((RemoteCallback<Void>) response -> {
+            placeManager.closePlace(place);
             refreshBrowserEvent.fire(new RefreshBrowserEvent());
         }).add(game);
         concurrentUpdateSessionInfo = null;
